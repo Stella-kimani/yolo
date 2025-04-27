@@ -11,7 +11,7 @@
 
 ## 3. Docker-compose Networking
 - Custom bridge network (`app-network`) for secure inter-container communication
-- Port mapping 3000:3000 for web access
+- Port mapping 5000:5000 for web access
 - Service discovery using service names (web can access mongo via 'mongo' hostname)
 
 ## 4. Volume Usage
