@@ -23,23 +23,15 @@ yolo-app/
 
 ## System Requirements
 
-- Docker Engine: [Installation Guide](https://docs.docker.com/engine/install/)
-- Docker Compose: Included with Docker Desktop
-- 4GB RAM (8GB recommended for YOLO processing)
-- GPU acceleration recommended (for optimal YOLO performance)
+- **Docker Engine**: [Install Guide](https://docs.docker.com/engine/install/)
+- **Docker Compose** (included with Docker Desktop)
+- **Hardware**:
+  - Minimum: 4GB RAM
+  - Recommended: 8GB+ RAM with GPU (for YOLO processing)
 
 ## Quick Start
 
-### Launch with Docker Compose
-```bash
-# Build and start all services
-docker-compose up --build -d
-
-# View running containers
-docker-compose ps
-
-#**Create .env file**
-MONGODB_URI=mongodb://mongodb:27017/yolo-app
-NODE_ENV=production
-PORT=5000
-
+1. **Clone repository**:
+   ```bash
+   git clone https://github.com/your-repo/yolo-app.git
+   cd yolo-app
