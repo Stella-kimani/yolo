@@ -19,24 +19,21 @@ This project implements a containerized full-stack YOLO (You Only Look Once) obj
 
 ## Quick Start
 
-1. **Clone repository**:
-   ```bash
+1. **Clone repository**
    git clone https://github.com/your-repo/yolo-app.git
    cd yolo-app
 
-Configure environment:
-bash
+# Configure environment:
 
-cp .env.example .env
+ cp .env.example .env
+ 
 # Edit .env if needed (defaults work for development)
 
-Launch services
+# Launch services
+  docker-compose up --build -d
 
-docker-compose up --build -d
-
-Verify containers
-
-docker-compose ps
+# Verify containers
+  docker-compose ps
 
    
 ## Core Project Structure
