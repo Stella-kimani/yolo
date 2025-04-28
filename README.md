@@ -24,3 +24,15 @@ docker-compose up --build -d
 
 # View running containers
 docker-compose ps
+
+#**Create .env file**
+MONGODB_URI=mongodb://mongodb:27017/yolo-app
+NODE_ENV=production
+PORT=5000
+
+## **Project Structure**
+yolo-app/
+├── client/          # React frontend
+├── server/          # Node.js backend with YOLO
+├── docker-compose.yml
+└── .env.example
