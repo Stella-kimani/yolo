@@ -30,7 +30,12 @@ MONGODB_URI=mongodb://mongodb:27017/yolo-app
 NODE_ENV=production
 PORT=5000
 
-## **Project Structure**
+## Core Project Structure
+
+The following is the folder structure for this project
+
+
+```plaintext
 yolo-app/
 ├── client/          # React frontend
 ├── server/          # Node.js backend with YOLO
