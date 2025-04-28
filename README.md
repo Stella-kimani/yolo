@@ -7,18 +7,6 @@ This project implements a containerized full-stack YOLO (You Only Look Once) obj
 - Node.js backend with YOLO model integration
 - MongoDB for data persistence
 - Docker Compose for microservice orchestration
-
-## Core Project Structure
-
-The following is the folder structure for this project
-
-```plaintext
-yolo-app/
-├── client/          # React frontend
-├── server/          # Node.js backend with YOLO
-├── docker-compose.yml
-└── .env.example
-
 ---
 
 ## System Requirements
@@ -35,3 +23,29 @@ yolo-app/
    ```bash
    git clone https://github.com/your-repo/yolo-app.git
    cd yolo-app
+
+Configure environment:
+bash
+
+cp .env.example .env
+# Edit .env if needed (defaults work for development)
+
+Launch services
+
+docker-compose up --build -d
+
+Verify containers
+
+docker-compose ps
+
+   
+## Core Project Structure
+
+The following is the folder structure for this project
+
+```plaintext
+yolo-app/
+├── client/          # React frontend
+├── server/          # Node.js backend with YOLO
+├── docker-compose.yml
+└── .env.example
