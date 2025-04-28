@@ -19,6 +19,8 @@ yolo-app/
 ├── docker-compose.yml
 └── .env.example
 
+---
+
 ## System Requirements
 
 - Docker Engine: [Installation Guide](https://docs.docker.com/engine/install/)
