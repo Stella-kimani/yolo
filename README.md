@@ -37,7 +37,7 @@ This project implements a containerized full-stack YOLO (You Only Look Once) obj
    
      docker-compose ps
 
-   
+
 ## Core Project Structure
 
 The following is the folder structure for this project
