@@ -6,7 +6,7 @@
 - name: Create Node.js frontend Container
   docker_container:
     name: yolo-client
-    image: stella377/stella-yolo-client:v1.0.0
+    image: kstella377/stella-yolo-client:v1.0.0
     networks:
       - name: app-net
     ports:

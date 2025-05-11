@@ -1,16 +1,21 @@
 ---
-- name: Pull image from repository
+- name: Pull image from Pull image from repository
   docker_image:
-    name: brianbwire/brian-yolo-backend:v1.0.0
+    name: kstella377/stella-yolo-backend:v1.0.0
     source: pull
 
 - name: Create Node.js Backend Container
   docker_container:
-    name: brian-yolo-backend
-    image: brianbwire/brian-yolo-backend:v1.0.0
+    name: yolo-backend
+    image: kstella377/stella-yolo-backend:v1.0.0
     networks:
       - name: app-net
     ports:
       - "5000:5000"
+    volumes:
+      - /home/vagrant/app/backend:/usr/src/app
+    working_dir: /usr/src/app
     command: "npm start"
   become: yes
+
+
