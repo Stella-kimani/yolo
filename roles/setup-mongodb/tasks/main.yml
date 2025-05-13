@@ -1,14 +1,27 @@
 ---
-- name: Run MongoDB Container
+- name: Ensure MongoDB data directory exists
+  file:
+    path: /home/vagrant/app-mongo-data
+    state: directory
+    mode: '0755'
+
+- name: Pull official MongoDB image
+  docker_image:
+    name: mongo:6.0
+    source: pull
+
+- name: Create MongoDB container
   docker_container:
     name: app-mongo
-    image: mongo
+    image: mongo:6.0
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
-      - ./app-mongo-data:/data/db
+      - /home/vagrant/app-mongo-data:/data/db
     networks:
       - name: app-net
-  tags:
-    - database
-    - backend
+    env:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+    restart_policy: unless-stopped
+    detach: true

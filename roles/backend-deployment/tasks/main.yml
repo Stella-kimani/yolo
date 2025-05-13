@@ -1,10 +1,10 @@
 ---
-- name: Pull image from Pull image from repository
+- name: Pull backend image
   docker_image:
     name: kstella377/stella-yolo-backend:v1.0.0
     source: pull
 
-- name: Create Node.js Backend Container
+- name: Create backend container
   docker_container:
     name: yolo-backend
     image: kstella377/stella-yolo-backend:v1.0.0
@@ -14,8 +14,9 @@
       - "5000:5000"
     volumes:
       - /home/vagrant/app/backend:/usr/src/app
-    working_dir: /usr/src/app
-    command: "npm start"
-  become: yes
-
-
+    environment:
+      MONGO_URI: "mongodb://app-mongo:27017/yolo"
+      NODE_ENV: "development"
+    depends_on:
+      - app-mongo
+    restart_policy: unless-stopped

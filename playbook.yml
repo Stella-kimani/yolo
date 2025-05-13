@@ -1,9 +1,16 @@
 ---
-- name: Playbook for Yolo ecommerce application
+- name: Deploy Yolo application
   hosts: all
   become: true
-  roles: 
-    - client_setup
-    - mongodb_setup  
-    - backend_setup
-    
+  tasks:
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+  roles:
+    - common
+    - setup-mongodb
+    - backend-deployment
+    - frontend-deployment

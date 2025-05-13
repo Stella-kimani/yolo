@@ -1,9 +1,10 @@
-- name: Pull image from repository
+---
+- name: Pull frontend image
   docker_image:
     name: kstella377/stella-yolo-client:v1.0.0
     source: pull
 
-- name: Create Node.js frontend Container
+- name: Create frontend container
   docker_container:
     name: yolo-client
     image: kstella377/stella-yolo-client:v1.0.0
@@ -11,6 +12,6 @@
       - name: app-net
     ports:
       - "3000:3000"
-    command: "npm start"
     restart_policy: unless-stopped
-  become: yes
+    env:
+      REACT_APP_API_URL: "http://yolo-backend:5000"

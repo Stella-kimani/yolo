@@ -1,47 +1,22 @@
-# YOLO Object Detection Web Application
+# Configuration Management IP
 
-## Overview
-This project implements a containerized full-stack YOLO (You Only Look Once) object detection system using Docker. The application features:
+This project automates the deployment of an e-commerce application using Ansible (Stage 1) and Ansible+Terraform (Stage 2).
 
-- React frontend for user interaction
-- Node.js backend with YOLO model integration
-- MongoDB for data persistence
-- Docker Compose for microservice orchestration
----
+## Requirements
+- VirtualBox
+- Vagrant
+- Ansible
+- (Optional) Terraform
 
-## System Requirements
+## Stage 1: Ansible
+1. Clone this repository
+2. Run `vagrant up`
 
-- **Docker Engine**: [Install Guide](https://docs.docker.com/engine/install/)
-- **Docker Compose** (included with Docker Desktop)
-- **Hardware**:
-  - Minimum: 4GB RAM
-  - Recommended: 8GB+ RAM with GPU (for YOLO processing)
+## Stage 2: Ansible + Terraform
+1. Checkout to Stage_two branch
+2. Run `./deploy.sh`
 
-## Quick Start
-
-### **Clone repository**
-   
-   git clone https://github.com/your-repo/yolo-app.git
-   
-   cd yolo-app
-
-### **Configure environment**
-    cp .env.example .env
- 
-### **Launch services**
-    docker-compose up --build -d
-
-## **Verify containers**
-     docker-compose ps
-
-
-## Core Project Structure
-
-The following is the folder structure for this project
-
-```plaintext
-yolo-app/
-├── client/          # React frontend
-├── server/          # Node.js backend with YOLO
-├── docker-compose.yml
-└── .env.example
+## Project Structure
+- `Vagrantfile` - Vagrant configuration
+- `ansible/` - Ansible playbooks and roles
+- `terraform/` - Terraform configuration (Stage 2)
