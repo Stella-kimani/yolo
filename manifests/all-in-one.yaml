@@ -1,0 +1,133 @@
+# yolo/yolo/manifests/all-in-one.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yolo
+---
+# MongoDB Database
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: stella-mongo
+  namespace: yolo
+spec:
+  serviceName: stella-mongo
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stella-mongo
+  template:
+    metadata:
+      labels:
+        app: stella-mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:5.0
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongo-data
+          mountPath: /data/db
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stella-mongo
+  namespace: yolo
+spec:
+  clusterIP: None
+  selector:
+    app: stella-mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+# Backend Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stella-backend
+  namespace: yolo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stella-backend
+  template:
+    metadata:
+      labels:
+        app: stella-backend
+    spec:
+      containers:
+      - name: backend
+        image: kstella377/stella-yolo-backend:v1.0.0
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://stella-mongo.yolo.svc.cluster.local:27017/yolo"
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stella-backend-service
+  namespace: yolo
+spec:
+  type: LoadBalancer
+  selector:
+    app: stella-backend
+  ports:
+    - port: 80
+      targetPort: 5000
+---
+# Frontend Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stella-frontend
+  namespace: yolo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stella-frontend
+  template:
+    metadata:
+      labels:
+        app: stella-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: kstella377/stella-yolo-client:v1.0.0
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stella-frontend-service
+  namespace: yolo
+spec:
+  type: LoadBalancer
+  selector:
+    app: stella-frontend
+  ports:
+    - port: 80
+      targetPort: 3000

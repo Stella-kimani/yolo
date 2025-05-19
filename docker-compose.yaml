@@ -1,69 +1,92 @@
-#This file builds the Docker images for a React/NodeJS application and runs it as microservices on Docker containers
 
-#To ensure successful execution, clone this entire repository and execute this file while in the root folder of the cloned repository
+# This file builds the Docker images for a React/NodeJS application
+# and runs it as microservices on Docker containers
 
-#It's also a requirement to have Docker and the docker-compose plugin installed in your environment
-
-#To launch this app without having to clone the entire repository,use the docker-compose.yaml file to run the app
+# To ensure successful execution:
+# 1. Clone this repository
+# 2. Have Docker and docker-compose installed
+# 3. Run from the root folder: docker-compose up -d
 
 version: "3.8"
 
 services:
-
-  #Builds the frontend Docker image and creates the frontend microservice
+  # Frontend microservice (React)
   stella-yolo-client:
     image: kstella377/stella-yolo-client:v1.0.0
-    build: ./client
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
     container_name: stella-yolo-client
     stdin_open: true
     tty: true
+    restart: unless-stopped  # Better than 'always' for production
     ports:
-      - "3000:3000"
-    depends_on: 
+      - "80:3000"  # Changed to standard HTTP port
+    environment:
+      - NODE_ENV=production
+    depends_on:
       - stella-yolo-backend
     networks:
       - app-net
+    healthcheck:  # Added health monitoring
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  #Builds the backend Docker image and creates the backend microservice
+  # Backend microservice (Node.js)
   stella-yolo-backend:
     image: kstella377/stella-yolo-backend:v1.0.0
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: stella-yolo-backend
     stdin_open: true
     tty: true
-    restart: always
+    restart: unless-stopped
     ports:
       - "5000:5000"
-    depends_on: 
-      - app-ip-mongo
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://app-mongo:27017/yolo  # Explicit DB name
+    depends_on:
+      - app-mongo  # Changed to match container_name
     networks:
       - app-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  #Creates the database microservice
-  app-ip-mongo:
-    image: mongo
+  # Database microservice (MongoDB)
+  app-mongo:  # Renamed to match container_name
+    image: mongo:5.0  # Pinned version for stability
     container_name: app-mongo
+    restart: unless-stopped
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=yolo  # Initialize with default DB
     networks:
       - app-net
     volumes:
-      - type: volume
-        source: app-mongo-data
-        target: /data/db
+      - app-mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-#Creates the network infrastructure necessary for the containers to communicate with each other
+# Network configuration
 networks:
   app-net:
     name: app-net
     driver: bridge
     attachable: true
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16 
-          ip_range: 172.20.0.0/16 
+    # Removed manual IPAM for better Docker auto-management
 
-#Creates a Docker volume that persists all the data stored in the database
+# Persistent data volume
 volumes:
   app-mongo-data:
     driver: local
