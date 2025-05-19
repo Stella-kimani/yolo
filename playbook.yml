@@ -1,5 +1,9 @@
 ---
+<<<<<<< HEAD
 - name: Playbook to deploy yolo e-commerce
+=======
+- name: Playbook for Yolo ecommerce application
+>>>>>>> 36e0cf7ad0d01e0ea3159c4c844323cc01f5943a
   hosts: all
   become: true
   roles: 

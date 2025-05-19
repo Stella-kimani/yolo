@@ -1,15 +1,47 @@
-# Overview
-This project involved the containerization and deployment of a full-stack yolo application using Docker.
+# YOLO Object Detection Web Application
+
+## Overview
+This project implements a containerized full-stack YOLO (You Only Look Once) object detection system using Docker. The application features:
+
+- React frontend for user interaction
+- Node.js backend with YOLO model integration
+- MongoDB for data persistence
+- Docker Compose for microservice orchestration
+---
+
+## System Requirements
+
+- **Docker Engine**: [Install Guide](https://docs.docker.com/engine/install/)
+- **Docker Compose** (included with Docker Desktop)
+- **Hardware**:
+  - Minimum: 4GB RAM
+  - Recommended: 8GB+ RAM with GPU (for YOLO processing)
+
+## Quick Start
+
+### **Clone repository**
+   
+   git clone https://github.com/your-repo/yolo-app.git
+   
+   cd yolo-app
+
+### **Configure environment**
+    cp .env.example .env
+ 
+### **Launch services**
+    docker-compose up --build -d
+
+## **Verify containers**
+     docker-compose ps
 
 
-# Requirements
-Install the docker engine here:
-- [Docker](https://docs.docker.com/engine/install/) 
+## Core Project Structure
 
-## How to launch the application 
+The following is the folder structure for this project
 
-
-![Alt text](image.png)
-
-## How to run the app
-Use vagrant up --provison command
+```plaintext
+yolo-app/
+├── client/          # React frontend
+├── server/          # Node.js backend with YOLO
+├── docker-compose.yml
+└── .env.example
