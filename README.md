@@ -1,47 +1,49 @@
-# YOLO Object Detection Web Application
 
-## Overview
-This project implements a containerized full-stack YOLO (You Only Look Once) object detection system using Docker. The application features:
+## Project Overview
+This project demonstrates Kubernetes orchestration by deploying a microservices application (frontend, backend, and MongoDB) on Google Kubernetes Engine (GKE).
 
-- React frontend for user interaction
-- Node.js backend with YOLO model integration
-- MongoDB for data persistence
-- Docker Compose for microservice orchestration
----
+## Live Application
+Access the deployed application at: [http://<GKE_EXTERNAL_IP>:<NODE_PORT>]
 
-## System Requirements
-
-- **Docker Engine**: [Install Guide](https://docs.docker.com/engine/install/)
-- **Docker Compose** (included with Docker Desktop)
-- **Hardware**:
-  - Minimum: 4GB RAM
-  - Recommended: 8GB+ RAM with GPU (for YOLO processing)
+## Prerequisites
+- Google Cloud SDK
+- kubectl configured with GKE cluster access
+- Docker Hub account
 
 ## Quick Start
+1. Set up GKE cluster:
+```bash
+gcloud container clusters create my-cluster --num-nodes=3 --zone=us-central1-a
 
-### **Clone repository**
-   
-   git clone https://github.com/your-repo/yolo-app.git
-   
-   cd yolo-app
+    Deploy the application:
 
-### **Configure environment**
-    cp .env.example .env
- 
-### **Launch services**
-    docker-compose up --build -d
+bash
 
-## **Verify containers**
-     docker-compose ps
+kubectl apply -f manifests/all-in-one.yaml
 
+    Get access information:
 
-## Core Project Structure
+bash
 
-The following is the folder structure for this project
+kubectl get svc
 
-```plaintext
-yolo-app/
-├── client/          # React frontend
-├── server/          # Node.js backend with YOLO
-├── docker-compose.yml
-└── .env.example
+Project Structure
+
+.
+├── manifests/           # Kubernetes configuration
+│   └── all-in-one.yaml  # Main deployment file
+├── backend/             # Node.js backend service
+├── client/              # React frontend
+├── roles/               # Ansible configuration
+├── Explanation.md       # Implementation details
+└── README.md            # This file
+
+Key Features
+
+    MongoDB deployed as StatefulSet
+
+    Frontend exposed via NodePort
+
+    Persistent storage for database
+
+    Health monitoring probes
