@@ -1,18 +1,29 @@
-ansible-playbook/
-├── roles/
-│   ├── setup-mongodb/
-│   │   ├── tasks/
-│   │   │   └── main.yml
-│   │   └── vars/
-│   │       └── main.yml
-│   ├── backend-deployment/
-│   │   ├── tasks/
-│   │   │   └── main.yml
-│   │   └── vars/
-│   │       └── main.yml
-│   └── frontend-deployment/
-│       ├── tasks/
-│       │   └── main.yml
-│       └── vars/
-│           └── main.yml
-└── playbook.yml
+microservice-app/
+│
+├── manifests/                   # Kubernetes configuration files
+│   └── all-in-one.yaml          # Combined deployment manifest (StatefulSets, Deployments, Services)
+│
+├── backend/                     # Node.js backend service
+│   ├── Dockerfile               # Backend container configuration
+│   ├── models/
+│   │   └── Products.js          # MongoDB model definitions
+│   ├── routes/
+│   │   └── api/                 # API endpoint definitions
+│   └── server.js               # Main backend application
+│
+├── client/                      # React frontend
+│   ├── Dockerfile               # Frontend container configuration
+│   ├── public/                  # Static assets
+│   └── src/                     # Application source
+│       ├── components/          # React components
+│       └── App.js               # Main application
+│
+├── roles/                       # Ansible configuration (if applicable)
+│   ├── backend-deployment/      # Backend deployment tasks
+│   ├── frontend-deployment/     # Frontend deployment tasks
+│   └── setup-mongodb/           # MongoDB setup tasks
+│
+├── .gitignore                   # Specifies intentionally untracked files
+├── Explanation.md               # Detailed implementation rationale
+├── README.md                    # Project overview and setup instructions
+└── Vagrantfile                  # Development environment setup (if applicable)
